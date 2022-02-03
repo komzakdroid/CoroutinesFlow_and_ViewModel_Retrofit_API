@@ -1,4 +1,4 @@
-# CoroutinesFlow_and_ViewModel_Retrofit_API
+# Practice with CoroutinesFlow, ViewModel and Retrofit API
 Project example for learn ViewModel, flow and Coroutines with fetching data with retrofit Api
 
 ==================== NOTE ======================
