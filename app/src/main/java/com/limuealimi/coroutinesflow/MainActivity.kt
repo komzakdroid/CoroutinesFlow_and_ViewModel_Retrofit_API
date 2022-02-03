@@ -8,12 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.limuealimi.coroutinesflow.databinding.ActivityMainBinding
 import com.limuealimi.coroutinesflow.utils.NetworkHelper
 import com.limuealimi.coroutinesflow.utils.UserResource
+import com.limuealimi.coroutinesflow.viewmodels.PostViewModel
 import com.limuealimi.coroutinesflow.viewmodels.UserViewModel
 import com.limuealimi.coroutinesflow.viewmodels.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var postViewModel: PostViewModel
 
     //private lateinit var flow: Flow<Int>
     private val TAG = "MainActivity"
@@ -23,19 +24,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val networkHelper = NetworkHelper(this)
-        userViewModel =
-            ViewModelProvider(this, ViewModelFactory(networkHelper))[UserViewModel::class.java]
+        postViewModel =
+            ViewModelProvider(this, ViewModelFactory(networkHelper))[PostViewModel::class.java]
 
-        userViewModel.getUsers().observe(this, Observer {
+        postViewModel.getUserWithPost().observe(this, Observer {
             when (it) {
                 is UserResource.Loading -> {
-
+                    Log.d(TAG, "onCreate: Loading...")
                 }
                 is UserResource.Error -> {
                     Log.d(TAG, "onCreate: ${it.message}")
                 }
                 is UserResource.Success -> {
-                    Log.d(TAG, "onCreate: ${it.list}")
+                    Log.d(TAG, "onCreate: ${it.userWithPost.userList}")
+                    Log.d(TAG, "onCreate: ${it.userWithPost.postList}")
                 }
             }
         })

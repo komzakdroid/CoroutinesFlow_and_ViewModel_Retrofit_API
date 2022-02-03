@@ -2,7 +2,7 @@
  Project example for learn ViewModel, flow and Coroutines with fetching data with retrofit Api
 
 
-# Show data with logd on MainActivity.class onCreate method
+# Show data with logd on MainActivity.class onCreate() method
 
       override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
