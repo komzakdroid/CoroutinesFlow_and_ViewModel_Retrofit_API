@@ -13,6 +13,9 @@ class ViewModelFactory(private val networkHelper: NetworkHelper) : ViewModelProv
         if (modelClass.isAssignableFrom(PostViewModel::class.java)) {
             return PostViewModel(networkHelper) as T
         }
+        if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
+            return MyViewModel() as T
+        }
         throw Exception("Error")
     }
 }
