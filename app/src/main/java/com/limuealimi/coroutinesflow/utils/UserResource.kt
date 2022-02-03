@@ -8,5 +8,5 @@ sealed class UserResource {
 
     class Success(val list: List<User>) : UserResource()
 
-    class Error(e: Exception) : UserResource()
+    class Error(val message: String) : UserResource()
 }

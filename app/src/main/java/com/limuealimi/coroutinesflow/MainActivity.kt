@@ -3,30 +3,47 @@ package com.limuealimi.coroutinesflow
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.limuealimi.coroutinesflow.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import com.limuealimi.coroutinesflow.utils.NetworkHelper
+import com.limuealimi.coroutinesflow.utils.UserResource
+import com.limuealimi.coroutinesflow.viewmodels.UserViewModel
+import com.limuealimi.coroutinesflow.viewmodels.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var flow: Flow<Int>
-    private val tag = "MainActivity"
+    private lateinit var userViewModel: UserViewModel
+
+    //private lateinit var flow: Flow<Int>
+    private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupFlow()
-        setupClick()
-    }
+        val networkHelper = NetworkHelper(this)
+        userViewModel =
+            ViewModelProvider(this, ViewModelFactory(networkHelper))[UserViewModel::class.java]
 
+        userViewModel.getUsers().observe(this, Observer {
+            when (it) {
+                is UserResource.Loading -> {
+
+                }
+                is UserResource.Error -> {
+                    Log.d(TAG, "onCreate: ${it.message}")
+                }
+                is UserResource.Success -> {
+                    Log.d(TAG, "onCreate: ${it.list}")
+                }
+            }
+        })
+
+        /* setupFlow()
+         setupClick()*/
+    }
+/*
     private fun setupClick() {
         binding.btn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
@@ -48,5 +65,5 @@ class MainActivity : AppCompatActivity() {
                 emit(it)
             }
         }.flowOn(Dispatchers.Default)
-    }
+    }*/
 }
