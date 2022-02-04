@@ -1,5 +1,5 @@
-# Practice with Coroutines Flow, ViewModel and get data with Retrofit from two API
- Project example for learn ViewModel, flow and Coroutines with fetching data with retrofit Api
+# Practice with Coroutines Flow, ViewModel and get data with Retrofit from two APIs
+ Project example for learn ViewModel, flow and Coroutines with fetching data with retrofit from two Apis
 
 
 # Show data with logd on MainActivity.class onCreate() method
