@@ -4,29 +4,35 @@
 
 # Show data with logd on MainActivity.class onCreate() method
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+            override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        val networkHelper = NetworkHelper(this)
-        postViewModel =
+            val networkHelper = NetworkHelper(this)
+            postViewModel =
             ViewModelProvider(this, ViewModelFactory(networkHelper))[PostViewModel::class.java]
+               myViewModel =
+                 ViewModelProvider(this, ViewModelFactory(networkHelper))[MyViewModel::class.java]
 
-        postViewModel.getUserWithPost().observe(this, Observer {
-            when (it) {
+            postViewModel.getUserWithPost().observe(this) {
+               when (it) {
                 is UserResource.Loading -> {
-                    Log.d(TAG, "onCreate: Loading...")
+                    Log.d(tag, "onCreate: Loading...")
                 }
                 is UserResource.Error -> {
-                    Log.d(TAG, "onCreate: ${it.message}")
+                    Log.d(tag, "onCreate: ${it.message}")
                 }
                 is UserResource.Success -> {
-                    Log.d(TAG, "onCreate: ${it.userWithPost.userList}")
-                    Log.d(TAG, "onCreate: ${it.userWithPost.postList}")
+                    Log.d(tag, "onCreate: ${it.userWithPost.userList}")
+                    Log.d(tag, "onCreate: ${it.userWithPost.postList}")
                 }
+              }
             }
-        })
+               myViewModel.liveEvent.postValue("PDP")
+               myViewModel.liveEvent.observe(this, Observer {
+             })
+            }
 # Note 
 
 /**
